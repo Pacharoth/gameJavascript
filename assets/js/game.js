@@ -49,9 +49,7 @@ window.addEventListener("keyup",function(event){
     console.log(moveLeft,moveUp,moveRight,moveDown);
 });
 //function control game
-function controlGame(){
-    
-}
+
 // play again 
 
 //store score in localStorage
