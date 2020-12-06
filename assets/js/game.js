@@ -1,7 +1,11 @@
+//movement check
+let moveUp=false,moveDown=false,moveLeft=false,moveRight=false;
+
+
 //Game start
 function startGame(){
     myGameArea.start(); 
-    let snake = new makeSquare(30,30,10,120,"#ff7a3c").update();  
+    let snake = new makeSquare(30,30,10,120,"#ff7a3c");  
 }
 
 //create the area of the game
@@ -22,7 +26,7 @@ let myGameArea = {
     },
     //erase function
     clear:function(){
-      this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
+        this.context.clearRect(0, 0, this.canvas.width, this.canvas.height);
        
     }
 }
@@ -30,12 +34,32 @@ let myGameArea = {
 //create square
 function makeSquare(width,height,x,y,color){
     let context = myGameArea.context;
-    // create function update
-    this.update= function(){
-        context.fillStyle=color;
-        context.fillRect(x,y,width,height);
-    }
+    context.fillStyle=color;
+    context.fillRect(x,y,width,height);
 }
+
+//detach key on the whole page
+window.addEventListener("keyup",function(event){
+    event.preventDefault();
+    moveDown=false;moveLeft=false;moveRight=false;moveRight=false;
+    if(event.key=="ArrowUp")          moveUp=true;
+    else if (event.key=="ArrowDown")  moveDown=true;
+    else if (event.key=="ArrowRight") moveRight=true
+    else if (event.key=="ArrowLeft")  moveLeft=true;
+    console.log(moveLeft,moveUp,moveRight,moveDown);
+});
+//function control game
+function controlGame(){
+    
+}
+// play again 
+
+//store score in localStorage
+
+//get score the highest score into game
+
+
+//start game
 window.addEventListener("load",
     startGame
 );
