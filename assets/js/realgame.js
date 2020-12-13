@@ -1,96 +1,82 @@
-let canvas = document.getElementById("game");
-canvas.width=700;
-canvas.height=500;
+//border game
+let canvas = document.createElement("canvas")
+canvas.width=500;
+canvas.height=400;
+canvas.style.border="1px solid black";
+document.body.append(canvas);
+canvas.tabIndex=1;
+canvas.id="hey"
 let context = canvas.getContext("2d")
-//move game
-let moveUp=false,moveDown=false
+//control 
+let up=false,down=false,left=false,right=false
 
-// backgroundgame
-function drawBackground(){
-    context.fillStyle='#000';
-    context.fillRect(0,0,canvas.width,canvas.height);
+function earseRectangle(){
+    context.fillStyle="white"
+    context.fillRect(0,0,500,400);
 }
-drawBackground();
-let rect=drawRect(10,479,20,20,7,"#C24641");
 
-//draw rect
-function drawRect(x,y,width,height,speed,color){
+//global viriable
+function drawBall(x,y,speed){
     return{
         x:x,
         y:y,
         s:speed,
-        w:width,
-        h:height,
-        c:color,
-        draw:function(){
-            context.fillStyle=this.c;
-            context.fillRect(this.x,this.y,this.w,this.h);
-        },
-        erase:function(){
-            context.fillStyle="black";
-            context.fillRect(0,0,canvas.width,canvas.height);
-            
+        update:function(){
+            context.beginPath(),
+            context.arc(this.x,this.y,10,0,Math.PI*2),
+            context.fillStyle="green",
+            context.fill();
         }
     }
 }
-function assignText(){
-    context.font='50px sans-serif';
-    context.fillStyle='white';
-    context.textAlign='center';
-    context.fillText("Welcome to our Game",300,100);
-    context.fillText("Click to Start Game", canvas.width/2,canvas.height/2);
-}
-
-function assignScore(number){
-    context.font='20px sans-serif';
-    context.fillStyle='white';
-    context.fillText("Score:"+number, 50, 50);
-
-}
-
-function moveRec(rect){
-    if(rect.y<=480 && rect.y>=420){
-        if(moveUp)rect.y-=rect.s;
-        else if(moveDown)rect.y+=rect.s;
+function drawRectangle(x,y,width,height,speed){
+    return{
+        x:x,
+        y:y,
+        s:speed,
+        width:width,
+        height:height,
+        update:function(){
+            context.fillStyle="black";
+            context.fillRect(this.x,this.y,this.width,this.height);
+        }
     }
-    // else if(rect.y<420){
-    //     rect.y=420;
-    // }
-    // else if(rect.y>480){
-    //     rect.y=480;
-    // }
-    rect.draw();
 }
-//create collision
+let ball = drawBall(20,30);
+let rectangle =drawRectangle(20,40,30,10,10)
+//between
+function isWithin(a,b,c){
+    return(b>a && b<c)
+}
 
+function isColliding(a,b,c){
+    let result = false;
+    // if(isWithin())
+}
 
-function dropRec(rect){
-    // rect.x+=rect.s;
-    rect.y+=rect.s;
+function moveBall(item){
     
-    rect.draw();
-    requestAnimationFrame(dropRec);
-
+    if(left)  item.x -= 1;
+    else if(right) item.x += 1;
 }
-//start game 
+
+//start game
 function startGame(){
-    rect.erase();
-    assignScore(10);
-    // moveRec(rect);
-    dropRec(rect);
-    // setInterval(dropRec(rect),100)
+    // eraseRect();
+    context.clearRect(0,0,canvas.width,canvas.height);
+    rectangle.update()
+    moveBall(ball)
+    ball.update()
 }
-// setInterval(startGame,100);
-// startGame();
-assignText();
 
-let game = document.addEventListener("keydown",function(event){
-    moveUp=false;moveDown=false;
-    if(event.key=="ArrowUp")moveUp=true;
-    else if(event.key=="ArrowDown")moveDown=true;
+document.getElementById("hey").addEventListener("keydown",function(event){
+    up=false,left=false,right=false,left=false
+    if(event.key=="ArrowUp")           up  = true;
+    else if(event.key=="ArrowDown")  down  = true;
+    else if(event.key=="ArrowLeft")  left  = true;
+    else if(event.key=="ArrowRight") right = true;
+    
     startGame();
 })
-document.addEventListener("click",function(){
-    startGame();
-})
-
+startGame();
+setInterval()
