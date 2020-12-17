@@ -1,11 +1,11 @@
 ### Jump Game nothing else
-- [] Welcome Game Click
+- [ ] Welcome Game Click
 - [x] condition Collision
-- [x]Random Objects
+- [x] Random Objects
 - [x] Dino
-- [] Put picture at background and dino
-- [] put music
-- [] play again button 
+- [ ] Put picture at background and dino
+- [ ] put music
+- [ ] play again button 
 - [x] Store Highscore in localStorage
 - [x] increase score every movement
 - [x] action key press s arrowdown / space arrowup w
