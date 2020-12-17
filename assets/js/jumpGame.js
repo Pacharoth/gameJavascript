@@ -21,7 +21,7 @@ document.addEventListener('keydown', function (event) {
   document.addEventListener('keyup', function (event) {
     keyPress[event.code] = false;
   });
-
+// dinosaur
 function drawDino(x,y,width,height,color){
     return{
         x:x,
@@ -79,6 +79,7 @@ function drawDino(x,y,width,height,color){
         }
     }
 }
+//draw objects that against to dinosaur
 function drawObjects(x,y,width,height,color){
     return{
         x:x,
@@ -101,6 +102,7 @@ function drawObjects(x,y,width,height,color){
         }
     }
 }
+//draw score so on
 function drawText(score,x,y,area,color,pixel){
     return{
         t:score,
@@ -120,7 +122,7 @@ function drawText(score,x,y,area,color,pixel){
     }
 }
 
-//game condition
+//game condition for objects that spawn the location and size
 function respawnObjects(){
     let sizeObject = randomRange(20, 70);
     let typeObject = randomRange(0, 1);
@@ -132,11 +134,11 @@ function respawnObjects(){
     objects.push(object);
 }
 
-//random function
+//random function in range
 function randomRange(min, max) {
     return Math.round(Math.random() * (max - min) + min);
 }
-
+//running game
 function startGame(){
     canvas.width = 800;
     canvas.height = 500;
@@ -148,6 +150,7 @@ function startGame(){
   
     score = 0;
     highscore = 0;
+    //use localStorage to store high score
     if (localStorage.getItem('highscore')) {
       highscore = localStorage.getItem('highscore');
     }
@@ -164,8 +167,6 @@ let initialRespawnTimer = 200;
 let RespawnTimer = initialRespawnTimer;
 function updateGame(){
     requestAnimationFrame(updateGame);
-  
-    
     context.clearRect(0, 0, canvas.width, canvas.height);  
     context.beginPath();
     context.fillStyle='black';
@@ -184,14 +185,14 @@ function updateGame(){
       }
     }
   
-    // Spawn Enemies
+    // respawn Enemies
     for (let i = 0; i < objects.length; i++) {
       let ob = objects[i];
   
       if (ob.x + ob.w < 0) {
         objects.splice(i, 1);
       }
-  
+      //set score to origin like 0,time and object
       if (isCollision(dino,ob)) {
         objects = [];
         score = 0;
@@ -215,10 +216,10 @@ function updateGame(){
     }
     
     highscoreText.draw();
-  
     speedGame += 0.003;
 }
-//global
+//global collision for object and dino
+//we can use that to any game which need collision
 function isCollision(dino,ob){
     return (dino.x < ob.x + ob.w &&
     dino.x + dino.w > ob.x &&
