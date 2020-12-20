@@ -154,7 +154,7 @@ function startGame(){
     if (localStorage.getItem('highscore')) {
       highscore = localStorage.getItem('highscore');
     }
-  
+    //dino object
     dino = drawDino(25, 0, 40, 40, '#FF8040');
   
     scoreText = drawText("Score: " + score, 25, 25, "left", "white", "20");
@@ -165,6 +165,8 @@ function startGame(){
 
 let initialRespawnTimer = 200;
 let RespawnTimer = initialRespawnTimer;
+
+//action of the game
 function updateGame(){
     requestAnimationFrame(updateGame);
     context.clearRect(0, 0, canvas.width, canvas.height);  
@@ -185,7 +187,7 @@ function updateGame(){
       }
     }
   
-    // respawn Enemies
+    // respawn object Enemies
     for (let i = 0; i < objects.length; i++) {
       let ob = objects[i];
   
