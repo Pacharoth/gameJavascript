@@ -261,7 +261,7 @@ function beforeStartGame(){
     startGame.draw();
     let naruto = drawText("Instruction: Press W/Space/ArrowUp Jump and S/ArrowDown crouch down",canvas.width/2,430,"center","white","20");
     naruto.draw();
-    let instruction=drawText("Press T only Time or You will speed up your cube!",canvas.width/2,350,"center","white","25");
+    let instruction=drawText("Press T only one Time or You will speed up your cube!",canvas.width/2,350,"center","white","25");
     instruction.draw();
 }
 
