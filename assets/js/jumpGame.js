@@ -12,11 +12,12 @@ let gravity;
 let objects = [];
 let speedGame;
 let keyPress = {};
+let gameOver = 1;
 
 // Event Listeners
 document.addEventListener('keydown', function (event) {
     keyPress[event.code] = true;
-    console.log(event.key)
+    // console.log(event.key)
   });
   document.addEventListener('keyup', function (event) {
     keyPress[event.code] = false;
@@ -159,23 +160,32 @@ function startGame(){
   
     scoreText = drawText("Score: " + score, 25, 25, "left", "white", "20");
     highscoreText = drawText("Highscore: " + highscore, canvas.width - 25, 25, "right", "white", "20");
-  
     requestAnimationFrame(updateGame);
+    
 }
-
+function drawBackground(color){
+    context.beginPath();
+    context.fillStyle=color;
+    context.fillRect(0,0,canvas.width,canvas.height);
+    context.closePath();
+}
 let initialRespawnTimer = 200;
 let RespawnTimer = initialRespawnTimer;
 
 //action of the game
 function updateGame(){
-    requestAnimationFrame(updateGame);
+    // requestAnimationFrame(updateGame);
+    if(gameOver==1){
+        requestAnimationFrame(updateGame)
+    }
     context.clearRect(0, 0, canvas.width, canvas.height);  
-    context.beginPath();
-    context.fillStyle='black';
-    context.fillRect(0,0,canvas.width,canvas.height);
-    context.closePath();
-      
-
+    if(score<highscore){
+        drawBackground("black");
+    }else if(score>highscore&&score<highscore+500){
+        drawBackground("#283747");
+    }else{
+        drawBackground("#424949");
+    }
     RespawnTimer--;
     if (RespawnTimer <= 0) {
       respawnObjects();
@@ -197,10 +207,12 @@ function updateGame(){
       //set score to origin like 0,time and object
       if (isCollision(dino,ob)) {
         objects = [];
-        score = 0;
+        // score = 0;
         RespawnTimer = initialRespawnTimer;
         speedGame = 3;
+
         window.localStorage.setItem('highscore', highscore);
+        gameOver=0;
       }
   
       ob.update();
@@ -228,4 +240,42 @@ function isCollision(dino,ob){
     dino.y < ob.y + ob.h &&
     dino.y + dino.h > ob.y);
 }
-startGame();
+// startGame();
+function makeGameOver(score){
+    canvas.width = 800;
+    canvas.height = 500;
+    drawBackground("#ba4a00");
+    let game = drawText("Congratulation You got score:"+score+"!",canvas.width/2,150,"center","white","40");
+    game.draw();
+    let anothergame = drawText("Please Press T to replay the game",canvas.width/2,canvas.height/2,"center","white","30");
+    anothergame.draw();
+}
+function beforeStartGame(){
+    canvas.width = 800;
+    canvas.height = 500;
+    canvas.style.borderRadius="10px";
+    drawBackground(" #ff4922");
+    let welcome = drawText("Welcome to Jump Game",canvas.width/2,150,"center","white","40");
+    welcome.draw();
+    let startGame = drawText("Lets press T button to start game!",canvas.width/2,canvas.height/2,"center","white","30");
+    startGame.draw();
+    let naruto = drawText("Instruction: Press W/Space/ArrowUp Jump and S/ArrowDown crouch down",canvas.width/2,430,"center","white","20");
+    naruto.draw();
+    let instruction=drawText("Press T only Time or You will speed up your cube!",canvas.width/2,350,"center","white","25");
+    instruction.draw();
+}
+
+//there is bugs in this game just press T only start game dont press while playing
+//it is against the rule
+function startEnd(){
+   beforeStartGame();
+   setTimeout(startEnd,100);
+    if(keyPress['KeyT']){
+        gameOver=1;
+        startGame();
+    }
+    if(gameOver==0){
+        makeGameOver(score);
+    }
+}
+startEnd();
